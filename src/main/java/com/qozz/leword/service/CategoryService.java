@@ -1,6 +1,6 @@
 package com.qozz.leword.service;
 
-import com.qozz.leword.entity.Category;
+import com.qozz.leword.data.entity.Category;
 import com.qozz.leword.repository.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

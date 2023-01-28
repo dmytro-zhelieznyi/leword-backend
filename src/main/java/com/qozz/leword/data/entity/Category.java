@@ -1,9 +1,6 @@
-package com.qozz.leword.entity;
+package com.qozz.leword.data.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -11,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @EqualsAndHashCode
 public class Category {
 
@@ -20,5 +18,8 @@ public class Category {
 
     private String valueNo;
     private String valueEn;
+
+    @ManyToOne
+    private User user;
 
 }
