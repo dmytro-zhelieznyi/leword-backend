@@ -1,9 +1,12 @@
 package com.qozz.leword.service;
 
+import com.qozz.leword.data.dto.CategoryDto;
 import com.qozz.leword.data.entity.Category;
 import com.qozz.leword.repository.CategoryRepository;
+import com.qozz.leword.util.CategoryMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,29 +18,37 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
+    public List<CategoryDto> findAll(Specification<Category> spec) {
+        List<Category> categories = categoryRepository.findAll(spec);
+        return CategoryMapper.toCategoriesDto(categories);
     }
 
-    public Category findById(Long id) {
+    public CategoryDto findById(Long id) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isEmpty()) {
             throw new EntityNotFoundException("Category not found for id : " + id);
         }
-        return optionalCategory.get();
+        return CategoryMapper.toCategoryDto(optionalCategory.get());
     }
 
-    public Category create(Category category) {
-        return categoryRepository.save(category);
+    public List<CategoryDto> findAllByUserId(Long id) {
+        List<Category> categories = categoryRepository.findAll();
+        return CategoryMapper.toCategoriesDto(categories);
     }
 
-    public Category update(Long id, Category category) {
+    public CategoryDto create(CategoryDto categoryDto) {
+        Category savedCategory = categoryRepository.save(CategoryMapper.toCategory(categoryDto));
+        return CategoryMapper.toCategoryDto(savedCategory);
+    }
+
+    public CategoryDto update(Long id, CategoryDto categoryDto) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isEmpty()) {
             throw new EntityNotFoundException("Category not found for id : " + id);
         }
-        category.setId(id);
-        return categoryRepository.save(category);
+        categoryDto.setId(id);
+        Category savedCategory = categoryRepository.save(CategoryMapper.toCategory(categoryDto));
+        return CategoryMapper.toCategoryDto(categoryRepository.save(savedCategory));
     }
 
     public void delete(Long id) {

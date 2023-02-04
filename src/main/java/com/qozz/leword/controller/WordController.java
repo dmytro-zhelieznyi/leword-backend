@@ -1,6 +1,7 @@
 package com.qozz.leword.controller;
 
 import com.qozz.leword.data.entity.Word;
+import com.qozz.leword.repository.specification.WordSpecification;
 import com.qozz.leword.service.WordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/words")
@@ -17,8 +19,11 @@ public class WordController {
     private final WordService wordService;
 
     @GetMapping()
-    public ResponseEntity<List<Word>> getAllWords() {
-        List<Word> words = wordService.findAll();
+    public ResponseEntity<List<Word>> getAllWords(
+            @RequestParam(name = "userId", required = false) Long userId,
+            @RequestParam(name = "categoriesId", required = false) Set<Long> categoriesId
+            ) {
+        List<Word> words = wordService.findAll(new WordSpecification(userId, categoriesId));
         return new ResponseEntity<>(words, HttpStatus.OK);
     }
 
@@ -47,3 +52,4 @@ public class WordController {
     }
 
 }
+

@@ -6,9 +6,9 @@ import lombok.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
 @EqualsAndHashCode
 @Table(name = "usr")
 public class User {

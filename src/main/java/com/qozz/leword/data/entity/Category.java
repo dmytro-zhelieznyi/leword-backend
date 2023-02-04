@@ -3,12 +3,14 @@ package com.qozz.leword.data.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
 @EqualsAndHashCode
 public class Category {
 
@@ -19,8 +21,12 @@ public class Category {
     private String valueNo;
     @Column(name = "value_en", unique = true, nullable = false)
     private String valueEn;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_category",
+            joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    private Set<User> users;
 
 }
