@@ -36,8 +36,9 @@ public class WordSpecification implements Specification<Word> {
             predicates.add(categoriesID);
         }
 
-        Predicate userID = root.join(Word_.CATEGORY)
-                .join(Category_.USERS)
+        Predicate userID = root.get(Word_.CATEGORY)
+                .get(Category_.USERS)
+                .get("{element}")
                 .get(User_.ID)
                 .in(userId);
 
