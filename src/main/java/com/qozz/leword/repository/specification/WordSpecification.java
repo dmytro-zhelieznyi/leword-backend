@@ -28,21 +28,19 @@ public class WordSpecification implements Specification<Word> {
         root.fetch(Word_.CATEGORY, JoinType.INNER)
                 .fetch(Category_.USERS, JoinType.INNER);
 
-        Predicate categoriesID = root.get(Word_.CATEGORY)
-                .get(Category_.ID)
-                .in(categoriesId);
-
         if (categoriesId != null && categoriesId.isEmpty()) {
+            Predicate categoriesID = root.get(Word_.CATEGORY)
+                    .get(Category_.ID)
+                    .in(categoriesId);
             predicates.add(categoriesID);
         }
 
-        Predicate userID = root.get(Word_.CATEGORY)
-                .get(Category_.USERS)
-                .get("{element}")
-                .get(User_.ID)
-                .in(userId);
-
         if (userId != null) {
+            Predicate userID = root.get(Word_.CATEGORY)
+                    .get(Category_.USERS)
+                    .get("{element}")
+                    .get(User_.ID)
+                    .in(userId);
             predicates.add(userID);
         }
 

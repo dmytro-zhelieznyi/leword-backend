@@ -26,13 +26,14 @@ public class CategorySpecification implements Specification<Category> {
     public Predicate toPredicate(Root<Category> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
         Set<Predicate> predicates = new HashSet<>();
 
-        Predicate userID = root.join(Category_.USERS)
-                .get(User_.ID)
-                .in(userId);
-
         if (userId != null) {
+            Predicate userID = root.join(Category_.USERS)
+                    .get(User_.ID)
+                    .in(userId);
             predicates.add(userID);
         }
+
         return cb.and(predicates.toArray(new Predicate[]{}));
     }
+    
 }
