@@ -16,8 +16,21 @@ public class WordMapper {
                 .id(word.getId())
                 .valueNo(word.getValueNo())
                 .valueEn(word.getValueEn())
+                .type(word.getType())
                 .category(word.getCategory().getValueEn())
-                // TODO other fields
+                .singularIndefinite(word.getSingularIndefinite())
+                .singularParticular(word.getSingularParticular())
+                .pluralIndefinite(word.getPluralIndefinite())
+                .pluralParticular(word.getPluralParticular())
+                .presentTense(word.getPresentTense())
+                .pastTense(word.getPastTense())
+                .pastParticiple(word.getPastParticiple())
+                .singularMasculine(word.getSingularMasculine())
+                .singularFeminine(word.getSingularFeminine())
+                .singularNeuter(word.getSingularNeuter())
+                .plural(word.getPlural())
+                .subjectForm(word.getSubjectForm())
+                .objectForm(word.getObjectForm())
                 .build();
     }
 
