@@ -1,8 +1,11 @@
 package com.qozz.leword.data.entity;
 
+import com.qozz.leword.data.entity.mtm.UserWord;
 import com.qozz.leword.data.enumeration.WordType;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -28,6 +31,9 @@ public class Word {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = true)
     private Category category;
+
+    @OneToMany(mappedBy = "word")
+    private Set<UserWord> userWords;
 
     // NOUN TYPE
     @Column(name = "singular_indefinite")

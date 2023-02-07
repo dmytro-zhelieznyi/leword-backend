@@ -1,5 +1,6 @@
 package com.qozz.leword.data.entity;
 
+import com.qozz.leword.data.entity.mtm.UserCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,11 +23,7 @@ public class Category {
     @Column(name = "value_en", unique = true, nullable = false)
     private String valueEn;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_category",
-            joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-    private Set<User> users;
+    @OneToMany(mappedBy = "category")
+    private Set<UserCategory> userCategories;
 
 }

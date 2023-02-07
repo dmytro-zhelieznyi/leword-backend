@@ -1,7 +1,6 @@
 package com.qozz.leword.controller;
 
 import com.qozz.leword.data.dto.CategoryDto;
-import com.qozz.leword.repository.specification.CategorySpecification;
 import com.qozz.leword.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,7 @@ public class CategoryController {
     @GetMapping()
     public ResponseEntity<List<CategoryDto>> getAllCategories(
             @RequestParam(name = "userId", required = false) Long userId) {
-        List<CategoryDto> categoriesDto = categoryService.findAll(new CategorySpecification(userId));
+        List<CategoryDto> categoriesDto = categoryService.findAll(userId);
         return new ResponseEntity<>(categoriesDto, HttpStatus.OK);
     }
 
