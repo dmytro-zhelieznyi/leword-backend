@@ -1,4 +1,4 @@
-package com.qozz.leword.controller;
+package com.qozz.leword.api.controller;
 
 import com.qozz.leword.data.dto.CategoryDto;
 import com.qozz.leword.service.CategoryService;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 

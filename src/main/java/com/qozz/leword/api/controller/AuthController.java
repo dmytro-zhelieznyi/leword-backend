@@ -1,4 +1,4 @@
-package com.qozz.leword.controller;
+package com.qozz.leword.api.controller;
 
 import com.qozz.leword.data.entity.User;
 import com.qozz.leword.service.UserService;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 

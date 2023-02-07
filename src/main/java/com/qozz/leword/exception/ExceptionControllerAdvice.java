@@ -1,6 +1,6 @@
 package com.qozz.leword.exception;
 
-import com.qozz.leword.exception.model.LewordExceptionDto;
+import com.qozz.leword.exception.data.LewordExceptionDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

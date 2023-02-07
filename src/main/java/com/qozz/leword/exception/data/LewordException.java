@@ -1,4 +1,4 @@
-package com.qozz.leword.exception.model;
+package com.qozz.leword.exception.data;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
