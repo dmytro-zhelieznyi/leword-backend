@@ -6,6 +6,8 @@ import com.qozz.leword.data.entity.key.UserWordId;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "user_word")
 @AllArgsConstructor
@@ -29,5 +31,11 @@ public class UserWord {
 
     @Column(name = "repeat")
     private Integer repeat;
+
+    @Column(name = "last_repeat_time", nullable = false)
+    private LocalDateTime lastRepeatTime;
+
+    @Column(name = "next_repeat_time", nullable = false)
+    private LocalDateTime nextRepeatTIme;
 
 }

@@ -12,6 +12,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.LongStream;
 
@@ -87,6 +88,8 @@ public class MockDataLoader {
                         .user(word.getId() % 2 == 0 ? user : admin)
                         .word(word)
                         .repeat((int) (word.getId() % 2))
+                        .lastRepeatTime(LocalDateTime.now())
+                        .nextRepeatTIme(LocalDateTime.now().plusHours(1L))
                         .build())
                 .toList();
 
