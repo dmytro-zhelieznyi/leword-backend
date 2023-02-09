@@ -2,11 +2,13 @@ package com.qozz.leword.service;
 
 import com.qozz.leword.api.request.GetAllWordsRequestBody;
 import com.qozz.leword.api.request.UpdateUserWordProgressRequestBody;
+import com.qozz.leword.data.dto.UserWordDto;
 import com.qozz.leword.data.dto.WordDto;
 import com.qozz.leword.data.entity.mtm.UserWord;
 import com.qozz.leword.data.enumeration.RepeatInterval;
 import com.qozz.leword.repository.UserWordRepository;
 import com.qozz.leword.repository.specification.UserWordSpecification;
+import com.qozz.leword.util.UserWordMapper;
 import com.qozz.leword.util.WordMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,15 +29,15 @@ public class WordService {
         return wordDtos;
     }
 
-    public UserWord updateUserWordProgress(UpdateUserWordProgressRequestBody requestBody) {
+    public UserWordDto updateUserWordProgress(UpdateUserWordProgressRequestBody requestBody) {
         UserWord userWord = userWordRepository.findById_UserIdAndId_WordId(
                         requestBody.userId(),
                         requestBody.wordId())
                 .orElseThrow(() -> new RuntimeException("UserWord doesn't exist. " + requestBody));
 
         updateUserWordProgress(requestBody, userWord);
-        userWordRepository.save(userWord);
-        return userWord;
+        UserWord savedUserWord = userWordRepository.save(userWord);
+        return UserWordMapper.userWordToUserWordDto(savedUserWord);
     }
 
     private void updateUserWordProgress(UpdateUserWordProgressRequestBody requestBody,
@@ -45,11 +47,10 @@ public class WordService {
         userWord.setRepeat(updateRepeat(isWordLearned, userWord.getRepeat()));
         userWord.setLastRepeatTime(LocalDateTime.now());
         userWord.setNextRepeatTime(updateNextRepeatTime(userWord.getRepeat()));
-
-        // TODO add dto for UserWord
     }
 
     private int updateRepeat(boolean isWordLearned, int repeat) {
+        // TODO update logic using complex step system
         return isWordLearned ?
                 updateRepeatPlus(repeat) :
                 updateRepeatMinus(repeat);

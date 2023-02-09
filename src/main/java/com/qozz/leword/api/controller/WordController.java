@@ -2,8 +2,8 @@ package com.qozz.leword.api.controller;
 
 import com.qozz.leword.api.request.GetAllWordsRequestBody;
 import com.qozz.leword.api.request.UpdateUserWordProgressRequestBody;
+import com.qozz.leword.data.dto.UserWordDto;
 import com.qozz.leword.data.dto.WordDto;
-import com.qozz.leword.data.entity.mtm.UserWord;
 import com.qozz.leword.service.WordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,10 +29,10 @@ public class WordController {
     }
 
     @PostMapping("/progress")
-    public ResponseEntity<UserWord> updateUserWordProgress(
+    public ResponseEntity<UserWordDto> updateUserWordProgress(
             @RequestBody UpdateUserWordProgressRequestBody requestBody
     ) {
-        UserWord userWord = wordService.updateUserWordProgress(requestBody);
+        UserWordDto userWord = wordService.updateUserWordProgress(requestBody);
         return new ResponseEntity<>(userWord, HttpStatus.OK);
     }
 
