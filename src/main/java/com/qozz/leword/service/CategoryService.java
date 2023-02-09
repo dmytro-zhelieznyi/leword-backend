@@ -1,5 +1,6 @@
 package com.qozz.leword.service;
 
+import com.qozz.leword.api.request.GetAllCategoriesRequestBody;
 import com.qozz.leword.data.dto.CategoryDto;
 import com.qozz.leword.data.entity.mtm.UserCategory;
 import com.qozz.leword.repository.UserCategoryRepository;
@@ -16,8 +17,9 @@ public class CategoryService {
 
     private final UserCategoryRepository userCategoryRepository;
 
-    public List<CategoryDto> findAll(Long userId) {
-        List<UserCategory> userCategories = userCategoryRepository.findAll(new UserCategorySpecification(userId));
+    public List<CategoryDto> findAll(GetAllCategoriesRequestBody requestBody) {
+        List<UserCategory> userCategories = userCategoryRepository
+                .findAll(new UserCategorySpecification(requestBody));
         List<CategoryDto> categoryDtos = CategoryMapper.userCategoriesToCategoryDtos(userCategories);
         return categoryDtos;
     }

@@ -1,9 +1,9 @@
 package com.qozz.leword.repository.specification;
 
+import com.qozz.leword.api.request.GetAllCategoriesRequestBody;
 import com.qozz.leword.data.entity.User_;
 import com.qozz.leword.data.entity.mtm.UserCategory;
 import com.qozz.leword.data.entity.mtm.UserCategory_;
-import com.qozz.leword.data.entity.mtm.UserWord_;
 import jakarta.persistence.criteria.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,11 +18,13 @@ import java.util.Set;
 @Builder
 public class UserCategorySpecification implements Specification<UserCategory> {
 
-    private Long userId;
+    private GetAllCategoriesRequestBody requestBody;
 
     @Override
     public Predicate toPredicate(Root<UserCategory> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
         Set<Predicate> predicates = new HashSet<>();
+
+        var userId = requestBody.userId();
 
         root.fetch(UserCategory_.USER);
         root.fetch(UserCategory_.CATEGORY);

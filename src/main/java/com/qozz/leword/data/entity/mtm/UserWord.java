@@ -36,6 +36,6 @@ public class UserWord {
     private LocalDateTime lastRepeatTime;
 
     @Column(name = "next_repeat_time", nullable = false)
-    private LocalDateTime nextRepeatTIme;
+    private LocalDateTime nextRepeatTime;
 
 }

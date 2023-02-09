@@ -1,5 +1,6 @@
 package com.qozz.leword.repository.specification;
 
+import com.qozz.leword.api.request.GetAllWordsRequestBody;
 import com.qozz.leword.data.entity.Category_;
 import com.qozz.leword.data.entity.User_;
 import com.qozz.leword.data.entity.Word_;
@@ -19,12 +20,14 @@ import java.util.Set;
 @Builder
 public class UserWordSpecification implements Specification<UserWord> {
 
-    private Long userId;
-    private Set<Long> categoryIds;
+    private GetAllWordsRequestBody requestBody;
 
     @Override
     public Predicate toPredicate(Root<UserWord> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
         Set<Predicate> predicates = new HashSet<>();
+
+        var userId = requestBody.userId();
+        var categoryIds = requestBody.categoryIds();
 
         root.fetch(UserWord_.USER);
         root.fetch(UserWord_.WORD)
