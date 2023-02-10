@@ -4,6 +4,7 @@ import java.util.Set;
 
 public record GetAllWordsRequestBody(
         Long userId,
-        Set<Long> categoryIds
+        Set<Long> categoryIds,
+        Boolean isLearning
 ) {
 }

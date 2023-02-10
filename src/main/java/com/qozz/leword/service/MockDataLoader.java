@@ -89,7 +89,7 @@ public class MockDataLoader {
                         .word(word)
                         .repeat((int) (word.getId() % 2))
                         .lastRepeatTime(LocalDateTime.now())
-                        .nextRepeatTime(LocalDateTime.now().plusHours(1L))
+                        .nextRepeatTime(word.getId() % 3 == 0 ? LocalDateTime.now() : LocalDateTime.now().plusHours(1L))
                         .build())
                 .toList();
 
