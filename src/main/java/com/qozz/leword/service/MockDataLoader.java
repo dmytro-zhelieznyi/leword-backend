@@ -43,15 +43,15 @@ public class MockDataLoader {
         userRepository.save(user);
         userRepository.save(admin);
 
-//        List<Category> categories = LongStream.rangeClosed(1, 6)
-//                .boxed()
-//                .map(num -> Category.builder().id(num)
-//                        .valueNo("cNo-" + num)
-//                        .valueEn("cEn-" + num)
-//                        .build())
-//                .toList();
-//
-//        categoryRepository.saveAll(categories);
+        List<Category> categories = LongStream.rangeClosed(1, 6)
+                .boxed()
+                .map(num -> Category.builder().id(num)
+                        .valueNo("cNo-" + num)
+                        .valueEn("cEn-" + num)
+                        .build())
+                .toList();
+
+        categoryRepository.saveAll(categories);
 //
 //        List<UserCategory> userCategories = categories.stream()
 //                .map(category -> UserCategory.builder()

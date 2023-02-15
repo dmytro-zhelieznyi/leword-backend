@@ -22,7 +22,6 @@ public class WordController {
     @GetMapping
     public ResponseEntity<List<WordDto>> getAllWords(
             @RequestBody GetAllWordsRequestBody requestBody
-            // TODO add other params (depends on learn time and repeats...)
     ) {
         List<WordDto> words = wordService.findAll(requestBody);
         return new ResponseEntity<>(words, HttpStatus.OK);
