@@ -9,7 +9,7 @@ env:
   ECR_REPOSITORY: test                        # ECR repository name
   ECS_CLUSTER: TestCluster                    # ECS cluster name
   ECS_SERVICE: leword-service                 # ECS service name
-  ECS_TASK_DEFINITION: leword-deploy          # path to Amazon ECS task definition
+  ECS_TASK_DEFINITION: taskdefinition.json    # path to Amazon ECS task definition
   CONTAINER_NAME: leword-service              # container in the task definition
 
 permissions:
@@ -56,6 +56,10 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition leword-deploy --query taskDefinition > taskdefinition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
