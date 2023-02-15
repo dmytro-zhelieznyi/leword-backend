@@ -1,0 +1,3 @@
+id,valueNo,valueEn,type,category,singularIndefinite,singularParticular,pluralIndefinite,pluralParticular,presentTense,pastTense,pastParticiple,singularMasculine,singularFeminine,singularNeuter,plural,subjectForm,objectForm
+1,valueNo-1,valueEn-1,VERB,cEn-1,null,null,null,null,presentTense,pastTense,pastParticiple,null,null,null,null,null,null
+2,valueNo-2,valueEn-2,VERB,cEn-1,null,null,null,null,presentTense,pastTense,pastParticiple,null,null,null,null,null,null

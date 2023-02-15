@@ -3,6 +3,7 @@ package com.qozz.leword.repository.specification;
 import com.qozz.leword.data.entity.Category;
 import com.qozz.leword.data.entity.Category_;
 import com.qozz.leword.data.entity.User_;
+import com.qozz.leword.data.entity.mtm.UserCategory_;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -20,20 +21,18 @@ import java.util.Set;
 @Builder
 public class CategorySpecification implements Specification<Category> {
 
-    private Long userId;
+    private Set<Long> categoryIds;
 
     @Override
     public Predicate toPredicate(Root<Category> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
         Set<Predicate> predicates = new HashSet<>();
 
-        if (userId != null) {
-            Predicate userID = root.join(Category_.USERS)
-                    .get(User_.ID)
-                    .in(userId);
-            predicates.add(userID);
+        if (categoryIds != null && !categoryIds.isEmpty()) {
+            Predicate categoryIDS = root.get(Category_.ID).in(categoryIds);
+            predicates.add(categoryIDS);
         }
 
         return cb.and(predicates.toArray(new Predicate[]{}));
     }
-    
+
 }

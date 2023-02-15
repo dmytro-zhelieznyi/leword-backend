@@ -3,16 +3,16 @@ package com.qozz.leword.service;
 import com.qozz.leword.data.entity.Category;
 import com.qozz.leword.data.entity.User;
 import com.qozz.leword.data.entity.Word;
-import com.qozz.leword.data.enumeration.WordType;
-import com.qozz.leword.repository.CategoryRepository;
-import com.qozz.leword.repository.UserRepository;
-import com.qozz.leword.repository.WordRepository;
+import com.qozz.leword.data.entity.key.UserCategoryId;
+import com.qozz.leword.data.entity.key.UserWordId;
+import com.qozz.leword.data.entity.mtm.UserCategory;
+import com.qozz.leword.data.entity.mtm.UserWord;
+import com.qozz.leword.repository.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.LongStream;
 
@@ -22,7 +22,9 @@ public class MockDataLoader {
 
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final UserCategoryRepository userCategoryRepository;
     private final WordRepository wordRepository;
+    private final UserWordRepository userWordRepository;
 
     @PostConstruct
     public void postConstructor() {
@@ -41,171 +43,146 @@ public class MockDataLoader {
         userRepository.save(user);
         userRepository.save(admin);
 
-        List<Category> categories = LongStream.rangeClosed(1, 15)
+        List<Category> categories = LongStream.rangeClosed(1, 6)
                 .boxed()
                 .map(num -> Category.builder().id(num)
-                        .valueNo("categoryNo-" + num)
-                        .valueEn("categoryEn-" + num)
-                        .users(num % 2 == 0 ? Collections.singleton(user) : Collections.singleton(admin))
+                        .valueNo("cNo-" + num)
+                        .valueEn("cEn-" + num)
                         .build())
                 .toList();
 
         categoryRepository.saveAll(categories);
+//
+//        List<UserCategory> userCategories = categories.stream()
+//                .map(category -> UserCategory.builder()
+//                        .id(UserCategoryId.builder()
+//                                .userId(category.getId() % 2 == 0 ? 1L : 2L)
+//                                .categoryId(category.getId())
+//                                .build())
+//                        .user(category.getId() % 2 == 0 ? user : admin)
+//                        .category(category)
+//                        .build())
+//                .toList();
+//
+//        userCategoryRepository.saveAll(userCategories);
+//
+//        List<Word> words = categories.stream()
+//                .flatMap(category -> LongStream.rangeClosed(1, 3)
+//                        .boxed()
+//                        .map(num -> Word.builder()
+//                                .id(null)
+//                                .valueNo("c" + category.getId() + "-valueNo-" + num)
+//                                .valueEn("c" + category.getId() + "-valueEn-" + num)
+//                                .category(category)
+//                                .build()))
+//                .toList();
+//
+//        wordRepository.saveAll(words);
+//
+//        List<UserWord> userWords = words.stream()
+//                .map(word -> UserWord.builder()
+//                        .id(UserWordId.builder()
+//                                .userId(word.getId() % 2 == 0 ? 1L : 2L)
+//                                .wordId(word.getId())
+//                                .build())
+//                        .user(word.getId() % 2 == 0 ? user : admin)
+//                        .word(word)
+//                        .repeat((int) (word.getId() % 2))
+//                        .lastRepeatTime(LocalDateTime.now())
+//                        .nextRepeatTime(word.getId() % 3 == 0 ? LocalDateTime.now() : LocalDateTime.now().plusHours(1L))
+//                        .build())
+//                .toList();
+//
+//        userWordRepository.saveAll(userWords);
 
-        List<Word> wordsNoun = categories.stream()
-                .map(category -> LongStream.rangeClosed(1, 25)
-                        .boxed()
-                        .map(num -> Word.builder().id(null)
-                                .valueNo(category.getId() + "-nounNo-" + num)
-                                .valueEn(category.getId() + "-nounEn-" + num)
-                                .type(WordType.NOUN                              )
-                                .singularIndefinite("singularIndefinite")
-                                .singularParticular("singularParticular")
-                                .pluralIndefinite("pluralIndefinite")
-                                .pluralParticular("pluralParticular")
-                                .category(category)
-                                .build())
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
 
-        List<Word> wordsVerb = categories.stream()
-                .map(category -> LongStream.rangeClosed(26, 50)
-                        .boxed()
-                        .map(num -> Word.builder().id(null)
-                                .valueNo(category.getId() + "-verbNo-" + num)
-                                .valueEn(category.getId() + "-verbEn-" + num)
-                                .type(WordType.VERB)
-                                .presentTense("presentTense")
-                                .pastTense("pastTense")
-                                .pastParticiple("pastParticiple")
-                                .category(category)
-                                .build())
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
+//        List<UserWord> userWords = words.stream()
+//                .map(word -> UserWord.builder()
+//                        .id(null)
+//                        .wordId(word.getId())
+//                        .userId(word.getId() % 2 == 0 ? 1L : 2L)
+//                        .repeat((int) (word.getId() % 5))
+//                        .build())
+//                .toList();
+//
+//        userWordRepository.saveAll(userWords);
 
-        List<Word> wordsAdjective = categories.stream()
-                .map(category -> LongStream.rangeClosed(51, 75)
-                        .boxed()
-                        .map(num -> Word.builder().id(null)
-                                .valueNo(category.getId() + "-adjectiveNo-" + num)
-                                .valueEn(category.getId() + "-adjectiveEn-" + num)
-                                .type(WordType.ADJECTIVE)
-                                .singularMasculine("singularMasculine")
-                                .singularFeminine("singularFeminine")
-                                .singularNeuter("singularNeuter")
-                                .plural("plural")
-                                .category(category)
-                                .build())
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
+//        File lewordData;
+//        List<String> lewordDataLines;
+//
+//        try {
+//            lewordData = new File(getClass().getClassLoader().getResource("leword-data.csv").toURI());
+//            lewordDataLines = Files.readAllLines(Paths.get(lewordData.getAbsolutePath()));
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
 
-        List<Word> wordsPronoun = categories.stream()
-                .map(category -> LongStream.rangeClosed(76, 100)
-                        .boxed()
-                        .map(num -> Word.builder().id(null)
-                                .valueNo(category.getId() + "-pronounNo-" + num)
-                                .valueEn(category.getId() + "-pronounEn-" + num)
-                                .type(WordType.PRONOUN)
-                                .subjectForm("subjectForm")
-                                .objectForm("objectForm")
-                                .category(category)
-                                .build())
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
+//        List<Map<String, String>> maps = lewordDataLines.stream()
+//                .skip(1)
+//                .map(s -> {
+//                    String[] split = s.split(",");
+//                    Map<String, String> map = new HashMap<>();
+//                    map.put("id", split[0]);
+//                    map.put("valueNo", split[1]);
+//                    map.put("valueEn", split[2]);
+//                    map.put("type", split[3]);
+//                    map.put("category", split[4]);
+//                    map.put("singularIndefinite", split[5]);
+//                    map.put("singularParticular", split[6]);
+//                    map.put("pluralIndefinite", split[7]);
+//                    map.put("pluralParticular", split[8]);
+//                    map.put("presentTense", split[9]);
+//                        map.put("pastTense", split[10]);
+//                        map.put("pastParticiple", split[11]);
+//                        map.put("singularMasculine", split[12]);
+//                        map.put("singularFeminine", split[13]);
+//                        map.put("singularNeuter", split[14]);
+//                        map.put("plural", split[15]);
+//                        map.put("subjectForm", split[16]);
+//                        map.put("objectForm", split[17]);
+//                        return map;
+//                    }).toList();
+//
+//            List<Word> words = new ArrayList<>();
+//
+//            maps.forEach(map -> {
+//                Word word = Word.builder()
+//                        .id(Long.valueOf(map.get("id")))
+//                        .valueNo(map.get("valueNo"))
+//                        .valueEn(map.get("valueEn"))
+//                        .type(WordType.valueOf(map.get("type")))
+//                        .category(categories.stream()
+//                                .filter(category -> category.getValueEn().equals(map.get("category")))
+//                                .findFirst()
+//                                .orElse(null))
+//                        .singularIndefinite(map.get("singularIndefinite"))
+//                        .singularParticular(map.get("singularParticular"))
+//                        .pluralIndefinite(map.get("pluralIndefinite"))
+//                        .pluralParticular(map.get("pluralParticular"))
+//                        .presentTense(map.get("presentTense"))
+//                        .pastTense(map.get("pastTense"))
+//                        .pastParticiple(map.get("pastParticiple"))
+//                        .singularMasculine(map.get("singularMasculine"))
+//                        .singularFeminine(map.get("singularFeminine"))
+//                        .singularNeuter(map.get("singularNeuter"))
+//                        .plural(map.get("plural"))
+//                        .subjectForm(map.get("subjectForm"))
+//                        .objectForm(map.get("objectForm"))
+//                        .build();
+//                words.add(word);
+//            });
 
-        List<Word> wordsAdverb = categories.stream()
-                .map(category -> LongStream.rangeClosed(101, 125)
-                        .boxed()
-                        .map(num -> Word.builder().id(null)
-                                .valueNo(category.getId() + "-adverbNo-" + num)
-                                .valueEn(category.getId() + "-adverbEn-" + num)
-                                .type(WordType.ADVERB)
-                                .category(category)
-                                .build())
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
-
-        List<Word> wordsPreposition = categories.stream()
-                .map(category -> LongStream.rangeClosed(126, 150)
-                        .boxed()
-                        .map(num -> Word.builder().id(null)
-                                .valueNo(category.getId() + "-prepositionNo-" + num)
-                                .valueEn(category.getId() + "-prepositionEn-" + num)
-                                .type(WordType.PREPOSITION)
-                                .category(category)
-                                .build())
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
-
-        List<Word> wordsConjunction = categories.stream()
-                .map(category -> LongStream.rangeClosed(151, 175)
-                        .boxed()
-                        .map(num -> Word.builder().id(null)
-                                .valueNo(category.getId() + "-conjunctionNo-" + num)
-                                .valueEn(category.getId() + "-conjunctionEn-" + num)
-                                .type(WordType.CONJUNCTION)
-                                .category(category)
-                                .build())
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
-
-        List<Word> wordsInterjection = categories.stream()
-                .map(category -> LongStream.rangeClosed(176, 200)
-                        .boxed()
-                        .map(num -> Word.builder().id(null)
-                                .valueNo(category.getId() + "-interjectionNo-" + num)
-                                .valueEn(category.getId() + "-interjectionEn-" + num)
-                                .type(WordType.INTERJECTION)
-                                .category(category)
-                                .build())
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
-
-        List<Word> wordsDeterminative = categories.stream()
-                .map(category -> LongStream.rangeClosed(201, 225)
-                        .boxed()
-                        .map(num -> Word.builder().id(null)
-                                .valueNo(category.getId() + "-determinativeNo-" + num)
-                                .valueEn(category.getId() + "-determinativeEn-" + num)
-                                .type(WordType.DETERMINATIVE)
-                                .category(category)
-                                .build())
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
-
-        List<Word> wordsSubjunctive = categories.stream()
-                .map(category -> LongStream.rangeClosed(226, 250)
-                        .boxed()
-                        .map(num -> Word.builder().id(null)
-                                .valueNo(category.getId() + "-subjunctiveNo-" + num)
-                                .valueEn(category.getId() + "-subjunctiveEn-" + num)
-                                .type(WordType.SUBJUNCTIVE)
-                                .category(category)
-                                .build())
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
-
-        wordRepository.saveAll(wordsNoun);
-        wordRepository.saveAll(wordsVerb);
-        wordRepository.saveAll(wordsAdjective);
-        wordRepository.saveAll(wordsPronoun);
-        wordRepository.saveAll(wordsAdverb);
-        wordRepository.saveAll(wordsPreposition);
-        wordRepository.saveAll(wordsConjunction);
-        wordRepository.saveAll(wordsInterjection);
-        wordRepository.saveAll(wordsDeterminative);
-        wordRepository.saveAll(wordsSubjunctive);
-
+//        wordRepository.saveAll(words);
+//
+//        List<UserWord> userWords = words.stream()
+//                .map(word -> UserWord.builder()
+//                        .id(null)
+//                        .userId(admin.getId())
+//                        .wordId(word.getId())
+//                        .repeat(2)
+//                        .build())
+//                .toList();
+//
+//        userWordRepository.saveAll(userWords);
     }
-
 }
